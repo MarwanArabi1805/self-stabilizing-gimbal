@@ -46,17 +46,12 @@ This runs continuously at ~50 Hz, so the platform continuously corrects for tilt
 
 - Validated proportional response on real hardware: servo output tracks tilt angle smoothly and proportionally on both axes, with no oscillation/overshoot at Kp = 3.
 - Verified identical behavior in a Wokwi circuit simulation, confirming the control logic (not just the physical build) is correct.
-- [Add MATLAB step-response metrics here once complete: settling time, overshoot %, steady-state error]
+- Ran a step-response analysis in MATLAB to put numbers on the controller's performance (script + data in [`/matlab-analysis`](matlab-analysis)). Wokwi's accelerometer sliders let me verify the PID math directly against the real firmware — forcing a 2g tilt produces exactly the servo output the equations predict — but there's no simulated mechanical link between the servo and the sensor, so it can't reproduce the actual closed-loop correction. That part was modeled separately, using those verified gains plus a representative servo/plant model:
+  - As-shipped (Kp = 3, Ki = 0, Kd = 0): settles in ~0.08s but levels off with a 7.5° steady-state error, as expected for pure proportional control.
+  - With Ki = 2.0 added: steady-state error drops to ~1.7°, at the cost of a slower ~2.3s settling time — the standard P vs PI trade-off, and the next thing to try tuning live on the real hardware.
+
+  ![Step response](matlab-analysis/step_response.png)
 
 ## Build notes / challenges
 
 The most significant challenge was an intermittent I2C connection to the MPU6050 caused by unsoldered header pins on the initial sensor board — this produced misleading symptoms (complete detection failure, frozen sensor readings, and corrupted/out-of-range readings) that looked like different problems on different attempts. Resolved by switching to a pre-soldered MPU6050 module and confirming a stable, reliable connection through repeated empirical testing rather than a single fix.
-
-## Future work
-
-- 3D-printed / SolidWorks-designed housing to mount the gimbal mechanically
-- Quantified step-response analysis in MATLAB (settling time, overshoot, steady-state error)
-
-## Author
-
-Marwan Arabi — Aerospace Engineering, City, University of London
