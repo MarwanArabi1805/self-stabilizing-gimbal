@@ -1,6 +1,6 @@
 # 2-Axis Self-Stabilizing Gimbal
 
-A closed-loop attitude stabilization system built with an Arduino Uno, an MPU6050 IMU, and two SG90 servos — the same sense-calculate-correct feedback loop used in spacecraft ADCS and rocket thrust-vector-control systems, built at hobby scale.
+A closed-loop attitude stabilization system built with an Arduino Uno, an MPU6050 IMU, and two SG90 servos — the same sense-calculate-correct feedback loop used in spacecraft ADCS and rocket thrust-vector-control systems.
 
 ![Demo video](docs/demo.gif) <!-- replace with your demo video/gif -->
 
